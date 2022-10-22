@@ -29,7 +29,7 @@ const configDev = {
   EMAIL: process.env.DEV_EMAIL,
   PASSWORD: process.env.DEV_PASSWORD,
   JWT_ACTIVATE: process.env.DEV_JWT_ACTIVATE,
-  LOCALIQ_API_KEY: process.env.DEV_LOCALIQ_API_KEY,
+  EMAIL_API_KEY: process.env.DEV_EMAIL_API_KEY,
 };
 
 export default configDev;
