@@ -11,6 +11,10 @@ const User = new Schema({
     type: String,
     required: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
   userName: {
     type: String,
     required: true,
@@ -26,6 +30,10 @@ const User = new Schema({
   },
   expTime: {
     type: Date,
+  },
+  verified: {
+    type: Boolean,
+    default: false,
   },
   city: {
     type: String,

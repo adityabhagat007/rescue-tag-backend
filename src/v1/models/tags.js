@@ -3,35 +3,35 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const tag = new Schema({
-  userId:{
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  tagType:{
-    type:String,
-    required:true
+  tagType: {
+    type: String,
+    required: true
   },
-  link:{
-    type:String,
+  link: {
+    type: String,
   },
-  name:{
-    type:String,
+  name: {
+    type: String,
   },
-  vechicalId:{
-    type:String,
+  vehicleId: {
+    type: String,
   },
-  registrationNo:{
-    type:String,
+  registrationNo: {
+    type: String,
   },
-  bodyColor:{
-    type:String,
+  bodyColor: {
+    type: String,
   },
-  gender:{
-    type:String,
+  gender: {
+    type: String,
   },
-  petType:{
-    type:String,
+  petType: {
+    type: String,
   }
-})
+});
 
 export default mongoose.model('Tags', tag);
