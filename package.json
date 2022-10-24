@@ -1,5 +1,5 @@
 {
-  "name": "backend-starter",
+  "name": "rescuetag-backend",
   "version": "1.0.0",
   "description": "backend",
   "main": "app.js",
@@ -9,7 +9,7 @@
     "start": "node server.js",
     "dev": "SET NODE_ENV=dev & nodemon --inspect server.js"
   },
-  "author": "Aditya and Team",
+  "author": "Aditya and Biswajit",
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",

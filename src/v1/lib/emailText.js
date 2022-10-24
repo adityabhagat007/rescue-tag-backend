@@ -1,4 +1,4 @@
-const emailText = (otp,name,emailText)=>{
+const emailText = (otp, name, emailText) => {
   const text = `<!doctype html>
   <html>
     <head>
@@ -334,7 +334,7 @@ const emailText = (otp,name,emailText)=>{
                                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                     <tbody>
                                       <tr style="font-size: 200px;">
-                                         ${otp}
+                                        ${otp}
                                       </tr>
                                     </tbody>
                                   </table>
