@@ -31,6 +31,10 @@ const User = new Schema({
   expTime: {
     type: Date,
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
   city: {
     type: String,
   },

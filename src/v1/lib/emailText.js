@@ -358,12 +358,12 @@ const emailText = (otp, name, emailText) => {
                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                   <tr>
                     <td class="content-block">
-                      <span class="apple-link">RescueTag,kolkata,</span>
+                      <span class="apple-link">Rescuetag, kolkata</span>
                       <br>
                     </td>
                   </tr>
                   <tr>
-                    <span class="apple-link" >If You have any Query Please email us in rescuetag2022@gmail.com </span>
+                    <span class="apple-link" >If You have any query please email us at rescuetag2022@gmail.com</span>
                 </table>
               </div>
               <!-- END FOOTER -->

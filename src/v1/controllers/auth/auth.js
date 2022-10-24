@@ -46,7 +46,7 @@ const signUpController = async (req, res, next) => {
     login.otp = otp;
     login.expTime = expTime;
 
-    const signupMail = await sendEmail(email, 'SignUp otp verification', verificationMail);
+    const signupMail = await sendEmail(email, 'signup otp verification', verificationMail);
     if (signupMail === false) {
       return res.status(500).json({
         status: false,
@@ -69,4 +69,53 @@ const signUpController = async (req, res, next) => {
   };
 };
 
-export { signUpController };
+const verifyOtpController = async (req, res, next) => {
+  try {
+    const { email, otp } = req.body;
+    const currentUser = await User.findOne({ email: email });
+    
+    if (!currentUser) {
+      return res.status(200).json({
+        status: false,
+        message: "user not found",
+        data: ""
+      });
+    };
+    
+    const currentTime = new Date();
+    const userLoginTime = currentUser.expTime;
+    if (userLoginTime < currentTime) {
+      return res.status(200).json({
+        status: false,
+        message: "otp expired",
+        data: ""
+      });
+    }
+
+    const actualOtp = currentUser.otp;
+    if (actualOtp !== otp) {
+      return res.status(200).json({
+        status: false,
+        message: "otp does not match",
+        data: ""
+      });
+    } else {
+      currentUser.otp = null;
+      currentUser.expTime = null;
+      currentUser.verified = true;
+
+      await currentUser.save();
+      res.status(200).json({
+        status: true,
+        message: "otp verified",
+        data: {
+          email: email,
+        }
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+export { signUpController, verifyOtpController };
