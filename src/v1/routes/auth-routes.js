@@ -2,7 +2,8 @@ import express from 'express';
 import { body } from 'express-validator';
 import {
   signUpController,
-  verifyOtpController
+  verifyOtpController,
+  loginController
 } from '../controllers/auth/auth.js';
 import { errorHandler } from '../utils/errorHandler.js';
 
@@ -21,6 +22,13 @@ route.post('/verify-otp',
   [
     body('otp').notEmpty().withMessage("invalid otp")
   ], errorHandler, verifyOtpController
+);
+
+route.post('/login',
+  [
+    body('userName').isLength({ min: 3 }).withMessage('invalid username'),
+    body('password').isStrongPassword().withMessage('invalid password'),
+  ], errorHandler, loginController
 );
 
 export default route;

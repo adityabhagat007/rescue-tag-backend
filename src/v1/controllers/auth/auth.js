@@ -1,5 +1,7 @@
 import User from '../../models/user.js';
 import bcrypt from 'bcryptjs';
+import Jwt from "jsonwebtoken";
+import config from "../../../../config/config.js";
 import genOtp from '../../utils/genOtp.js';
 import emailText from '../../lib/emailText.js';
 import sendEmail from '../../utils/sendemail.js';
@@ -73,7 +75,7 @@ const verifyOtpController = async (req, res, next) => {
   try {
     const { email, otp } = req.body;
     const currentUser = await User.findOne({ email: email });
-    
+
     if (!currentUser) {
       return res.status(200).json({
         status: false,
@@ -81,7 +83,7 @@ const verifyOtpController = async (req, res, next) => {
         data: ""
       });
     };
-    
+
     const currentTime = new Date();
     const userLoginTime = currentUser.expTime;
     if (userLoginTime < currentTime) {
@@ -118,4 +120,50 @@ const verifyOtpController = async (req, res, next) => {
   }
 };
 
-export { signUpController, verifyOtpController };
+const loginController = async (req, res, next) => {
+  try {
+    const { userName, password } = req.body;
+    const alreadyUser = await User.findOne({
+      userName: userName,
+      verified: true,
+    });
+
+    if (!alreadyUser) {
+      return res.status(406).json({
+        status: false,
+        message: "user not found",
+        data: ""
+      });
+    };
+
+    const matchedPassword = await bcrypt.compare(password, alreadyUser.password);
+    if (!matchedPassword) {
+      return res.status(406).json({
+        status: false,
+        message: "invalid password",
+        data: ""
+      });
+    };
+
+    const token = Jwt.sign({ userName: userName, id: alreadyUser._id }, config.JWT_ACTIVATE, {
+      expiresIn: "7d",
+    });
+    const loginDetails = { ...alreadyUser._doc };
+    delete loginDetails.password;
+    delete loginDetails.otp;
+    delete loginDetails.expTime;
+
+    return res.status(200).json({
+      status: true,
+      message: "welcome to rescuetag",
+      data: {
+        token: token,
+        loginDetails
+      }
+    });
+  } catch (err) {
+    next(err);
+  };
+};
+
+export { signUpController, verifyOtpController, loginController };
