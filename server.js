@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 import config from "./config/config.js";
 
 process.on("uncaughtException", (err) => {
