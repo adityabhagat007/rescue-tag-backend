@@ -2,6 +2,7 @@ import { validationResult } from "express-validator";
 
 const ENV = process.env.NODE_ENV;
 
+
 // parameter errors 
 const errorHandler = (req, res, next) => {
    try {
@@ -9,7 +10,7 @@ const errorHandler = (req, res, next) => {
       if (!errors.isEmpty()) {
          res.status(200).json({
             type: 0,
-            status: false,
+            status:false,
             message: "invalid inputs",
             errors: errors.array().map(({ msg, param }) => {
                return {
@@ -30,7 +31,7 @@ const errorHandler = (req, res, next) => {
    }
 };
 
-// logical errors
+// logical erros 
 const sendErrorDev = (err, req, res) => {
    return res.status(err.statusCode).json({
       error: err,
@@ -60,7 +61,7 @@ const globalErrorHandler = (err, req, res, next) => {
       sendErrorDev(err, req, res);
    } else {
       sendErrorProd(err, req, res);
-   };
+   }
 };
 
 export { globalErrorHandler, errorHandler };
