@@ -71,7 +71,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use("/api/v1/test", testApis);
-app.use("/api/v1/auth", authApi)
+app.use("/api/v1/auth", authApi);
 
 // error handling middleware
 app.use(globalErrorHandler);
