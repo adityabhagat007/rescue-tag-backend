@@ -83,7 +83,6 @@ const verifyOtpController = async (req, res, next) => {
     frontEmailPart = frontEmailPart.split('.').join('');
 
     let newFormatEmail = frontEmailPart+'@'+secondEmailPart;
-    //console.log(newFormatEmail);
 
     const currentUser = await User.findOne({ email: newFormatEmail});
 
@@ -178,7 +177,7 @@ const loginController = async (req, res, next) => {
     }
 
     const token = Jwt.sign(
-      { userName: userName, id: alreadyUser._id },
+      { email: email, id: alreadyUser._id },
       config.JWT_ACTIVATE,
       {
         expiresIn: "7d",
