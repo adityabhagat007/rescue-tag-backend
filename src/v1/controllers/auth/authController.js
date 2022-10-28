@@ -83,7 +83,6 @@ const verifyOtpController = async (req, res, next) => {
     frontEmailPart = frontEmailPart.split(".").join("");
 
     let newFormatEmail = frontEmailPart + "@" + secondEmailPart;
-    //console.log(newFormatEmail);
 
     const currentUser = await User.findOne({ email: newFormatEmail });
 
