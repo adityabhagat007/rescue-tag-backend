@@ -77,15 +77,15 @@ const signUpController = async (req, res, next) => {
 const verifyOtpController = async (req, res, next) => {
   try {
     const { email, otp } = req.body;
-    const newEmail = email.split('@');
+    const newEmail = email.split("@");
     let frontEmailPart = newEmail[0];
     let secondEmailPart = newEmail[1];
-    frontEmailPart = frontEmailPart.split('.').join('');
+    frontEmailPart = frontEmailPart.split(".").join("");
 
-    let newFormatEmail = frontEmailPart+'@'+secondEmailPart;
+    let newFormatEmail = frontEmailPart + "@" + secondEmailPart;
     //console.log(newFormatEmail);
 
-    const currentUser = await User.findOne({ email: newFormatEmail});
+    const currentUser = await User.findOne({ email: newFormatEmail });
 
     if (!currentUser) {
       return res.status(200).json({
@@ -140,7 +140,7 @@ const loginController = async (req, res, next) => {
 
     const notVerifiedUser = alreadyUser.verified;
     if (notVerifiedUser == false) {
-      const emailContext = "Please verify your OTP to Procced further";
+      const emailContext = "Please verify your OTP to Proceed further";
       const currDate = new Date();
       const expTime = new Date(currDate.getTime() + 30 * 60000);
       const otp = genOtp();
@@ -178,7 +178,7 @@ const loginController = async (req, res, next) => {
     }
 
     const token = Jwt.sign(
-      { userName: userName, id: alreadyUser._id },
+      { email: email, userId: alreadyUser._id },
       config.JWT_ACTIVATE,
       {
         expiresIn: "7d",
@@ -202,4 +202,46 @@ const loginController = async (req, res, next) => {
   }
 };
 
-export { signUpController, verifyOtpController, loginController };
+const changePasswordController = async (req, res, next) => {
+  try {
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+    const userId = req.userId;
+    if (newPassword !== confirmPassword) {
+      return res.status(406).json({
+        status: false,
+        message: "Confrim password and new password doesnot match",
+        data: "",
+      });
+    }
+    let userPassword = await User.findById(userId).select("password");
+    userPassword = userPassword.password;
+    const checkingOldpassword = await bcrypt.compare(oldPassword, userPassword);
+    const hashedNewPassword = await bcrypt.hash(newPassword, 12);
+
+    if (!checkingOldpassword) {
+      return res.status(401).json({
+        status: false,
+        message: "Wrong Old Password",
+        data: "",
+      });
+    }
+
+    await User.findByIdAndUpdate(userId, {
+      password: hashedNewPassword,
+    });
+
+    return res.status(200).json({
+      status: true,
+      message: "password changed",
+      data: "",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+export {
+  signUpController,
+  verifyOtpController,
+  loginController,
+  changePasswordController,
+};

@@ -4,8 +4,10 @@ import {
   signUpController,
   verifyOtpController,
   loginController,
+  changePasswordController,
 } from "../controllers/auth/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
+import { loginVerify } from "../middlewares/auth-middleware.js";
 
 const route = express.Router();
 
@@ -46,6 +48,14 @@ route.post(
   ],
   errorHandler,
   loginController
+);
+
+route.post(
+  "/change-password",
+  [body("newPassword").isStrongPassword().withMessage("invalid password")],
+  errorHandler,
+  loginVerify,
+  changePasswordController
 );
 
 export default route;
