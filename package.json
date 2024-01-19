@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "set NODE_ENV=dev && node server.js",
+    "start:prod": "set NODE_ENV=prod && node server.js",
+    "dev": "set NODE_ENV=dev && server.js"
   },
   "author": "rescue-tag",
   "license": "ISC",
@@ -17,6 +20,8 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
     "helmet": "^7.1.0",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.2",
