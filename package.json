@@ -6,13 +6,14 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set NODE_ENV=dev && node server.js",
-    "start:prod": "set NODE_ENV=prod && node server.js",
-    "dev": "set NODE_ENV=dev && server.js"
+    "start": "set NODE_ENV=dev && nodemon server.js",
+    "prod": "set NODE_ENV=prod && node server.js",
+    "dev": "set NODE_ENV=dev && nodemon server.js"
   },
   "author": "rescue-tag",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.0",
     "axios": "^1.6.5",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
@@ -27,6 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.0",
     "morgan": "^1.10.0",
+    "nanoid": "^5.0.4",
     "nodemailer": "^6.9.8",
     "xss-clean": "^0.1.4"
   },
