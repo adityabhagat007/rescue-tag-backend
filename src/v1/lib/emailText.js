@@ -27,7 +27,7 @@ const emailText = (otp, name, emailText) => {
                     <div style="padding: 20px; background-color: rgb(255, 255, 255);">
                       <div style="color: rgb(0, 0, 0); text-align: center;">
                         <h1 style="margin: 1rem 0">Verification Code</h1>
-                        <p style="padding-bottom: 16px">Hi ${name}<br>${emailText}</p>
+                        <p style="padding-bottom: 16px">Hi ${name},<br>${emailText}</p>
                         <p style="padding-bottom: 16px"><strong style="font-size: 130%">${otp}</strong></p>
                         <p style="padding-bottom: 16px">If you didn’t request this, you can ignore this email.</p>
                         <p style="padding-bottom: 16px">Thanks,<br>The rescuetag team</p>

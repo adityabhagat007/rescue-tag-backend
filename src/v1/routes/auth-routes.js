@@ -4,6 +4,8 @@ import {
     signUpController,
     verifyOtpController,
     loginController,
+    sendResetPasswordEmailController,
+    resetPasswordController
 } from "../controllers/auth/authController.js";
 import { errorHandler } from "../utils/errorHandler.js";
 
@@ -23,6 +25,11 @@ route.post(
         body("password")
             .isStrongPassword()
             .withMessage("please enter a strong password"),
+        body("confirm_password")
+            .exists({ checkFalsy: true })
+            .withMessage("You must type a confirmation password")
+            .custom((value, { req }) => value === req.body.password)
+            .withMessage("The passwords do not match"),
     ],
     errorHandler,
     signUpController
@@ -46,6 +53,38 @@ route.post(
     ],
     errorHandler,
     loginController
+);
+
+route.post(
+    "/forget-password",
+    [
+        body("email")
+            .normalizeEmail()
+            .isEmail()
+            .withMessage("please enter valid email"),
+    ],
+    errorHandler,
+    sendResetPasswordEmailController
+);
+
+route.post(
+    "/reset-password",
+    [
+        body("otp").notEmpty().withMessage("invalid otp"),
+        body("password")
+            .trim()
+            .isStrongPassword()
+            .withMessage("please enter strong password")
+            .exists({ checkFalsy: true })
+            .withMessage("You must type a password"),
+        body("confirm_password")
+            .exists({ checkFalsy: true })
+            .withMessage("You must type a confirmation password")
+            .custom((value, { req }) => value === req.body.password)
+            .withMessage("The passwords do not match"),
+    ],
+    errorHandler,
+    resetPasswordController
 );
 
 export default route;
