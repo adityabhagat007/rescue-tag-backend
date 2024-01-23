@@ -9,8 +9,8 @@ import verifiedEmailText from "../../lib/verifiedEmailText.js";
 
 const signUpController = async (req, res, next) => {
     try {
-        const { userName, name, password, email, confirm_password } = req.body;
-        if (password !== confirm_password) {
+        const { userName, name, password, email, confirmPassword } = req.body;
+        if (password !== confirmPassword) {
             return res.status(401).json({
                 status: false,
                 message: "Confirm password does not matched",
@@ -287,8 +287,8 @@ const sendResetPasswordEmailController = async (req, res, next) => {
 
 const resetPasswordController = async (req, res, next) => {
     try {
-        const { email, otp, password, confirm_password } = req.body;
-        if (password !== confirm_password) {
+        const { email, otp, password, confirmPassword } = req.body;
+        if (password !== confirmPassword) {
             return res.status(401).json({
                 status: false,
                 message: "confirm password does not matched",

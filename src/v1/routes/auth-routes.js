@@ -25,7 +25,7 @@ route.post(
         body("password")
             .isStrongPassword()
             .withMessage("please enter a strong password"),
-        body("confirm_password")
+        body("confirmPassword")
             .exists({ checkFalsy: true })
             .withMessage("You must type a confirmation password")
             .custom((value, { req }) => value === req.body.password)
@@ -77,7 +77,7 @@ route.post(
             .withMessage("please enter strong password")
             .exists({ checkFalsy: true })
             .withMessage("You must type a password"),
-        body("confirm_password")
+        body("confirmPassword")
             .exists({ checkFalsy: true })
             .withMessage("You must type a confirmation password")
             .custom((value, { req }) => value === req.body.password)
