@@ -9,7 +9,7 @@ const errorHandler = (req, res, next) => {
       if (!errors.isEmpty()) {
          res.status(200).json({
             type: 0,
-            status: false,
+            status:false,
             message: "invalid inputs",
             errors: errors.array().map(({ msg, param }) => {
                return {
@@ -60,7 +60,7 @@ const globalErrorHandler = (err, req, res, next) => {
       sendErrorDev(err, req, res);
    } else {
       sendErrorProd(err, req, res);
-   };
+   }
 };
 
 export { globalErrorHandler, errorHandler };

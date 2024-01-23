@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 import config from "./config/config.js";
 
 process.on("uncaughtException", (err) => {
@@ -17,8 +17,8 @@ const options = {
    serverSelectionTimeoutMS: 10000, // Keep trying to send operations for 5 seconds
    // socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
    // family: 4, // Use IPv4, skip trying IPv6
-   useUnifiedTopology: true,
-   useNewUrlParser: true,
+   // useUnifiedTopology: true,
+   // useNewUrlParser: true,
 };
 
 mongoose
