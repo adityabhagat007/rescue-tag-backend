@@ -7,7 +7,7 @@ import {
     sendResetPasswordEmailController,
     resetPasswordController
 } from "../controllers/auth/authController.js";
-import { errorHandler } from "../utils/errorHandler.js";
+import { globalErrorHandler } from "../utils/errorHandler.js";
 
 const route = express.Router();
 
@@ -31,14 +31,14 @@ route.post(
             .custom((value, { req }) => value === req.body.password)
             .withMessage("The passwords do not match"),
     ],
-    errorHandler,
+    globalErrorHandler,
     signUpController
 );
 
 route.post(
     "/verify-otp",
     [body("otp").notEmpty().withMessage("invalid otp")],
-    errorHandler,
+    globalErrorHandler,
     verifyOtpController
 );
 
@@ -51,7 +51,7 @@ route.post(
             .withMessage("please enter a valid Email"),
         body("password").isStrongPassword().withMessage("invalid password"),
     ],
-    errorHandler,
+    globalErrorHandler,
     loginController
 );
 
@@ -63,7 +63,7 @@ route.post(
             .isEmail()
             .withMessage("please enter valid email"),
     ],
-    errorHandler,
+    globalErrorHandler,
     sendResetPasswordEmailController
 );
 
@@ -83,7 +83,7 @@ route.post(
             .custom((value, { req }) => value === req.body.password)
             .withMessage("The passwords do not match"),
     ],
-    errorHandler,
+    globalErrorHandler,
     resetPasswordController
 );
 

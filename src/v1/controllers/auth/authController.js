@@ -45,7 +45,7 @@ const signUpController = async (req, res, next) => {
         login.name = name;
         login.userName = userName;
         login.password = await bcrypt.hash(password, 12);
-        login.email = email;
+        login.email = email.toLowerCase();
         login.otp = otp;
         login.expTime = expTime;
 
@@ -85,10 +85,10 @@ const verifyOtpController = async (req, res, next) => {
 
         let newFormatEmail = frontEmailPart + '@' + secondEmailPart;
 
-        const currentUser = await User.findOne({ email: newFormatEmail });
-
+        const currentUser = await User.findOne({ email: newFormatEmail.toLowerCase() });
+       
         if (!currentUser) {
-            return res.status(200).json({
+            return res.status(401).json({
                 status: false,
                 message: "user not found",
                 data: "",
@@ -98,7 +98,7 @@ const verifyOtpController = async (req, res, next) => {
         const currentTime = new Date();
         const userLoginTime = currentUser.expTime;
         if (userLoginTime < currentTime) {
-            return res.status(200).json({
+            return res.status(401).json({
                 status: false,
                 message: "otp expired",
                 data: "",
@@ -107,7 +107,7 @@ const verifyOtpController = async (req, res, next) => {
 
         const actualOtp = currentUser.otp;
         if (actualOtp !== otp) {
-            return res.status(200).json({
+            return res.status(401).json({
                 status: false,
                 message: "otp does not match",
                 data: "",

@@ -3,32 +3,32 @@ import { validationResult } from "express-validator";
 const ENV = process.env.NODE_ENV;
 
 // parameter errors 
-const errorHandler = (req, res, next) => {
-   try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-         res.status(200).json({
-            type: 0,
-            status:false,
-            message: "invalid inputs",
-            errors: errors.array().map(({ msg, param }) => {
-               return {
-                  msg,
-                  param,
-               };
-            }),
-         });
-      } else {
-         next();
-      }
-   } catch (err) {
-      console.log(err);
-      res.status(500).json({
-         status: false,
-         message: "server error",
-      });
-   }
-};
+// const errorHandler = (req, res, next) => {
+//    try {
+//       const errors = validationResult(req);
+//       if (!errors.isEmpty()) {
+//          res.status(200).json({
+//             type: 0,
+//             status:false,
+//             message: "invalid inputs",
+//             errors: errors.array().map(({ msg, param }) => {
+//                return {
+//                   msg,
+//                   param,
+//                };
+//             }),
+//          });
+//       } else {
+//          next();
+//       }
+//    } catch (err) {
+//       console.log(err);
+//       res.status(500).json({
+//          status: false,
+//          message: "server error",
+//       });
+//    }
+// };
 
 // logical errors
 const sendErrorDev = (err, req, res) => {
@@ -63,4 +63,4 @@ const globalErrorHandler = (err, req, res, next) => {
    }
 };
 
-export { globalErrorHandler, errorHandler };
+export { globalErrorHandler };
