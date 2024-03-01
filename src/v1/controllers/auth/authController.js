@@ -6,16 +6,13 @@ import genOtp from "../../utils/genOtp.js";
 import emailText from "../../lib/emailText.js";
 import sendEmail from "../../utils/sendEmail.js";
 import verifiedEmailText from "../../lib/verifiedEmailText.js";
+import { ERROR } from "../../helpers/responseHelper.js";
 
 const signUpController = async (req, res, next) => {
     try {
         const { userName, name, password, email, confirmPassword } = req.body;
         if (password !== confirmPassword) {
-            return res.status(401).json({
-                status: false,
-                message: "Confirm password does not matched",
-                data: "",
-            });
+            return ERROR(res ,"","Password does not matched",false)
         }
 
         const takenUserName = await User.findOne({ userName: userName });
@@ -55,11 +52,7 @@ const signUpController = async (req, res, next) => {
             verificationMail
         );
         if (signupMail === false) {
-            return res.status(500).json({
-                status: false,
-                message: "Something went wrong please try again later",
-                data: "",
-            });
+           throw Error("Something went wrong Try again later")
         }
         const createUser = await User.create(login);
 
@@ -88,30 +81,18 @@ const verifyOtpController = async (req, res, next) => {
         const currentUser = await User.findOne({ email: newFormatEmail.toLowerCase() });
        
         if (!currentUser) {
-            return res.status(401).json({
-                status: false,
-                message: "user not found",
-                data: "",
-            });
+            return ERROR(res ,"","User not found",false);
         }
 
         const currentTime = new Date();
         const userLoginTime = currentUser.expTime;
         if (userLoginTime < currentTime) {
-            return res.status(401).json({
-                status: false,
-                message: "otp expired",
-                data: "",
-            });
+            return ERROR(res ,"","OTP expired",false)
         }
 
         const actualOtp = currentUser.otp;
         if (actualOtp !== otp) {
-            return res.status(401).json({
-                status: false,
-                message: "otp does not match",
-                data: "",
-            });
+            return ERROR(res ,"","OTP does not matches",false)
         } else {
             currentUser.otp = null;
             currentUser.expTime = null;
@@ -156,6 +137,14 @@ const loginController = async (req, res, next) => {
             email: email,
         });
 
+        if (!alreadyUser) {
+            return res.status(406).json({
+                status: false,
+                message: "user not found",
+                data: "",
+            });
+        }
+
         const notVerifiedUser = alreadyUser.verified;
         if (notVerifiedUser == false) {
             const emailContext = "Please verify your OTP to Procced further";
@@ -175,14 +164,7 @@ const loginController = async (req, res, next) => {
             });
         }
 
-        if (!alreadyUser) {
-            return res.status(406).json({
-                status: false,
-                message: "user not found",
-                data: "",
-            });
-        }
-
+       
         const matchedPassword = await bcrypt.compare(
             password,
             alreadyUser.password
@@ -289,7 +271,7 @@ const resetPasswordController = async (req, res, next) => {
     try {
         const { email, otp, password, confirmPassword } = req.body;
         if (password !== confirmPassword) {
-            return res.status(401).json({
+            return res.status(400).json({
                 status: false,
                 message: "confirm password does not matched",
                 data: "",
