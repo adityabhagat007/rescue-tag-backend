@@ -6,13 +6,13 @@ import genOtp from "../../utils/genOtp.js";
 import emailText from "../../lib/emailText.js";
 import sendEmail from "../../utils/sendEmail.js";
 import verifiedEmailText from "../../lib/verifiedEmailText.js";
-import { ERROR } from "../../helpers/responseHelper.js";
+import { BAD } from "../../helpers/responseHelper.js";
 
 const signUpController = async (req, res, next) => {
     try {
         const { userName, name, password, email, confirmPassword } = req.body;
         if (password !== confirmPassword) {
-            return ERROR(res ,"","Password does not matched",false)
+            return BAD(res ,"","Password does not matched",false)
         }
 
         const takenUserName = await User.findOne({ userName: userName });
@@ -81,18 +81,18 @@ const verifyOtpController = async (req, res, next) => {
         const currentUser = await User.findOne({ email: newFormatEmail.toLowerCase() });
        
         if (!currentUser) {
-            return ERROR(res ,"","User not found",false);
+            return BAD(res ,"","User not found",false);
         }
 
         const currentTime = new Date();
         const userLoginTime = currentUser.expTime;
         if (userLoginTime < currentTime) {
-            return ERROR(res ,"","OTP expired",false)
+            return BAD(res ,"","OTP expired",false)
         }
 
         const actualOtp = currentUser.otp;
         if (actualOtp !== otp) {
-            return ERROR(res ,"","OTP does not matches",false)
+            return BAD(res ,"","OTP does not matches",false)
         } else {
             currentUser.otp = null;
             currentUser.expTime = null;

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { UNAUTHORIZED } from "../helpers/responseHelper";
+import { UNAUTHORIZED ,BAD } from "../helpers/responseHelper.js";
 
 const checkAuth = (req, res, next) => {
   try {
@@ -8,7 +8,7 @@ const checkAuth = (req, res, next) => {
 
     // * If no Bearer token was passed
     if (!auth || !auth.startsWith("Bearer ")) {
-      return ERROR(res,"","Invalid Request")
+      return BAD(res,"","Invalid Request")
     }
     // * Parsing the token
     const token = req.get("Authorization").split(" ")[1];

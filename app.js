@@ -16,7 +16,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 import testApis from "./src/v1/routes/test-route.js";
-import authApi from "./src/v1/routes/auth-routes.js";
+import authApis from "./src/v1/routes/auth-routes.js";
+import userApis from "./src/v1/routes/user-routes.js";
 
 //app  and middleware
 const app = express();
@@ -73,7 +74,8 @@ app.use(limiter);
 
 
 app.use("/api/v1/test", testApis);
-app.use("/api/v1/auth", authApi);
+app.use("/api/v1/auth", authApis);
+app.use("/api/v1/user", userApis)
 
 
 // ERROR HANDLING MIDDLEWARE

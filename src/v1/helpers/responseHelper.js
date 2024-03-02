@@ -9,7 +9,7 @@ const OK = (res, data, message = '', status = true) => {
   };
   
   const ERROR = (res, data, message = 'Error', status = false) => {
-    return res.status(200).json({
+    return res.status(500).json({
       status,
       message: message || '',
       data :data || "",
