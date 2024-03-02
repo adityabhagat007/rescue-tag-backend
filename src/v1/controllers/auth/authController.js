@@ -147,7 +147,7 @@ const loginController = async (req, res, next) => {
 
         const notVerifiedUser = alreadyUser.verified;
         if (notVerifiedUser == false) {
-            const emailContext = "Please verify your OTP to Procced further";
+            const emailContext = "Please verify your OTP to Proceed further";
             const currDate = new Date();
             const expTime = new Date(currDate.getTime() + 30 * 60000);
             const otp = genOtp();

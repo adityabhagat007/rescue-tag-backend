@@ -47,6 +47,9 @@ const User = new Schema({
     number: {
         type: String,
     },
+    countryCode:{
+        type: String,
+    },
     country: {
         type: String,
     },
