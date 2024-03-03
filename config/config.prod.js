@@ -18,7 +18,8 @@ const configProd = {
    EMAIL_API_KEY: process.env.PROD_EMAIL_API_KEY,
    JWT_ACTIVATE: process.env.PROD_JWT_ACTIVATE,
    HOST: process.env.PROD_HOST,
-   SERVICE: process.env.DEV_SERVICE
+   SERVICE: process.env.PROD_SERVICE,
+   CLIENT_URL: process.env.PROD_CLIENT_URL
    // LOCALIQ_API_KEY:process.env.PROD_LOCALIQ_API_KEY
 };
 

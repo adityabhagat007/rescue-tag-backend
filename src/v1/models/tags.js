@@ -11,26 +11,20 @@ const tag = new Schema({
         type: String,
         required: true
     },
+    blocked:{
+        type: Boolean,
+        default:false
+    },
     link: {
         type: String,
     },
     name: {
         type: String,
+        required:true,
     },
-    vehicleId: {
-        type: String,
-    },
-    registrationNo: {
-        type: String,
-    },
-    bodyColor: {
-        type: String,
-    },
-    gender: {
-        type: String,
-    },
-    petType: {
-        type: String,
+    description:{
+        type:String,
+        required:true,
     }
 });
 

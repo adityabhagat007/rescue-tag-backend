@@ -30,6 +30,7 @@
     "morgan": "^1.10.0",
     "nanoid": "^5.0.4",
     "nodemailer": "^6.9.8",
+    "qrcode": "^1.5.3",
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
