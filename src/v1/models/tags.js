@@ -34,7 +34,7 @@ const tag = new Schema({
         default:true
     },
     imageURL:{
-        type:Buffer, 
+        type:String, 
     },
     scans:{
         type:Number,

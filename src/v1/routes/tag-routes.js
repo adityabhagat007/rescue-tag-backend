@@ -1,12 +1,12 @@
 import { Router } from "express";
 import checkAuth from "../middlewares/auth-middleware.js";
-import { createTagController } from "../controllers/auth/tagsController.js";
+import {
+  createTagController,
+  getDataFromTag,
+} from "../controllers/auth/tagsController.js";
 
 const router = Router();
-router.post("/create-tag",checkAuth,createTagController);
-
-
-
-
+router.post("/create-tag", checkAuth, createTagController);
+router.get("/get-tag-details/:userId", getDataFromTag);
 
 export default router;
