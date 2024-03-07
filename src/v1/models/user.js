@@ -87,6 +87,6 @@ const User = new Schema({
             ref: "Tags",
         },
     ],
-});
+},{timestamps:true});
 
 export default mongoose.model("User", User);

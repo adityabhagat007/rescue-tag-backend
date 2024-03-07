@@ -4,16 +4,18 @@ import Tag from "../../models/tags.js";
 import config from "../../../../config/config.js";
 import user from "../../models/user.js";
 
-export const getDataFromTag = async (req,res,next) => {
+export const getDataFromTag = async (req, res, next) => {
   try {
-    const userId = req.params.userId;
-    console.log(userId);
-    const userData = await user.findById(userId);
-    if(!userData){
-      return BAD(res,"","Bad request",false);
+    const tagId = req.params.tagId;
+    const tagData = await Tag.findById(tagId ,'-imageURL').populate({
+      path: "userId",
+      select: "-password -otp -verified -hideProfile -myTags -expTime",
+    });
+    if (!tagData) {
+      return BAD(res, "", "Bad request", false);
     }
-    console.log(userData);
-    OK(res,userData,"",true);
+    //console.log(userData);
+    OK(res, tagData, "", true);
   } catch (err) {
     console.log(err);
   }
