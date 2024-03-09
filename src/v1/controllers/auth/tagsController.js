@@ -3,23 +3,37 @@ import { BAD, OK } from "../../helpers/responseHelper.js";
 import Tag from "../../models/tags.js";
 import config from "../../../../config/config.js";
 import user from "../../models/user.js";
+import sendEmail from "../../utils/sendEmail.js";
+import emailText from "../../lib/emailText.js";
+import verifiedEmailText from "../../lib/verifiedEmailText.js";
 
-export const getDataFromTag = async (req, res, next) => {
+export const getDataFromTagController = async (req, res, next) => {
   try {
     const tagId = req.params.tagId;
-    const tagData = await Tag.findById(tagId ,'-imageURL').populate({
+    const tagData = await Tag.findById(tagId, "-imageURL").populate({
       path: "userId",
       select: "-password -otp -verified -hideProfile -myTags -expTime",
     });
     if (!tagData) {
       return BAD(res, "", "Bad request", false);
     }
-    //console.log(userData);
+    if (tagData.notification) {
+      let emailContext = `${tagData.name} has been scanned`;
+      let alertText = verifiedEmailText(tagData.userId.name, emailContext);
+      await sendEmail(email, "Alert from rescueTag", alertText);
+    }
     OK(res, tagData, "", true);
   } catch (err) {
     console.log(err);
   }
 };
+export const emergencyAlertController = async (req,res,next)=>{
+  try{
+    
+  }catch(err){
+    console.log(err);
+  }
+}
 
 export const createTagController = async (req, res, next) => {
   try {

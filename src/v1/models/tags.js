@@ -9,6 +9,7 @@ const tag = new Schema({
     },
     tagType: {
         type: String,
+        enum:['alert','emergency','other'],
         required: true
     },
     blocked:{
