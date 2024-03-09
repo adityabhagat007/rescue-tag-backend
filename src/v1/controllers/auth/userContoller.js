@@ -16,7 +16,8 @@ export const saveUserDetails = async (req, res, next) => {
       dob,
       country,
       eyeColor,
-      address
+      address,
+      emergencyContacts,
     } = req.body;
     if (number.length !== 10) {
       return BAD(res, "", "Invalid Number");
@@ -39,9 +40,11 @@ export const saveUserDetails = async (req, res, next) => {
       eyeColor:eyeColor,
       city:city,
       address:address,
-      zipCode:zipCode
+      zipCode:zipCode,
+      emergencyContacts:emergencyContacts,
     };
     const userDetails = await user.findByIdAndUpdate(userId,updateData,{new:true});
+  
     userDetails.password = null;
     userDetails.otp = null;
     userDetails.expTime = null;

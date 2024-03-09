@@ -4,7 +4,6 @@ import Tag from "../../models/tags.js";
 import config from "../../../../config/config.js";
 import user from "../../models/user.js";
 import sendEmail from "../../utils/sendEmail.js";
-import emailText from "../../lib/emailText.js";
 import verifiedEmailText from "../../lib/verifiedEmailText.js";
 
 export const getDataFromTagController = async (req, res, next) => {
@@ -20,21 +19,36 @@ export const getDataFromTagController = async (req, res, next) => {
     if (tagData.notification) {
       let emailContext = `${tagData.name} has been scanned`;
       let alertText = verifiedEmailText(tagData.userId.name, emailContext);
-      await sendEmail(email, "Alert from rescueTag", alertText);
+      await sendEmail(tagData.userId.email, "Alert from rescueTag", alertText);
     }
     OK(res, tagData, "", true);
   } catch (err) {
     console.log(err);
   }
 };
-export const emergencyAlertController = async (req,res,next)=>{
-  try{
-    
-  }catch(err){
+export const emergencyAlertController = async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    const userDetails = await user.findById(
+      userId,
+      "name",
+      "emergencyContacts"
+    );
+    let emailContext = `${userDetails.name} rescueTag has been scanned .Try to connect with`;
+    let alertText = verifiedEmailText(user.name, emailContext);
+    let emergencyContacts = userDetails.emergencyContacts;
+    emergencyContacts.map(async (user) => {
+      await sendEmail(user.email, "Alert from rescueTag", alertText);
+    });
+    const result = await Promise.all(emergencyContacts);
+    if(!result){
+      throw Error("Something went wrong Try again later")
+    }
+    OK(res,"", "Message send....",true);
+  } catch (err) {
     console.log(err);
   }
-}
-
+};
 export const createTagController = async (req, res, next) => {
   try {
     const { name, tagType, userId, email, description } = req.body;
