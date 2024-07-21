@@ -55,3 +55,17 @@ export const saveUserDetails = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getUserDetails = async (req, res, next) => {
+  try{
+    const {userId} = req.body;
+    const userDetails = await user.findById(userId);
+    userDetails.password = null;
+    userDetails.otp = null;
+    userDetails.expTime = null;
+    return OK(res,userDetails,"User Details",true);
+  }catch(err){
+    console.log(err);
+    next(err);
+  }
+}
