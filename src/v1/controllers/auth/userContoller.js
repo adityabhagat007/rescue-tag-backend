@@ -13,25 +13,28 @@ export const saveUserDetails = async (req, res, next) => {
       countryCode,
       userId,
       email,
+      nickName,
       dob,
       country,
       eyeColor,
       address,
+      state,
       emergencyContacts,
     } = req.body;
-    if (number.length !== 10) {
-      return BAD(res, "", "Invalid Number");
-    }
-    const bloodGroups = ["AB+", "AB-", "O+", "O-", "A+", "A-", "B+", "B-"];
-    if (!bloodGroups.includes(bloodType)) {
-      return BAD(res, "", "Invalid blood Type");
-    }
-    const genderGroups = ["M", "F", "O"];
-    if (!genderGroups.includes(gender)) {
-      return BAD(res, "", "Invalid Gender");
-    }
+    // if (number.length !== 10) {
+    //   return BAD(res, "", "Invalid Number");
+    // }
+    // const bloodGroups = ["AB+", "AB-", "O+", "O-", "A+", "A-", "B+", "B-"];
+    // if (!bloodGroups.includes(bloodType)) {
+    //   return BAD(res, "", "Invalid blood Type");
+    // }
+    // const genderGroups = ["M", "F", "O"];
+    // if (!genderGroups.includes(gender)) {
+    //   return BAD(res, "", "Invalid Gender");
+    // }
     let updateData = {
       number: number,
+      nickName:nickName,
       hairColor: hairColor,
       country:country,
       gender:gender,
@@ -41,6 +44,7 @@ export const saveUserDetails = async (req, res, next) => {
       city:city,
       address:address,
       zipCode:zipCode,
+      state:state,
       emergencyContacts:emergencyContacts,
     };
     const userDetails = await user.findByIdAndUpdate(userId,updateData,{new:true});
